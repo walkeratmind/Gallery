@@ -19,11 +19,9 @@ public class ViewImageActivity extends AppCompatActivity {
 
         //putting image in a file
         ImageView imageView = findViewById(R.id.full_image);
-        String getImageString = getIntent().getStringExtra("selectedImage");
-        Log.i(TAG, "getImageString" + getImageString);
-        Glide.with(this).load(getImageString).into(imageView);
-
-        //setting zooming for image
+        String getImageSource = getIntent().getStringExtra("selectedImage");
+        Log.i(TAG, "getImageSource" + getImageSource);
+        Glide.with(this).load(getImageSource).into(imageView);
 
 
     }
