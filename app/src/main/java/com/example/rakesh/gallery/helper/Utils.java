@@ -45,6 +45,8 @@ public class Utils {
 
             listOfAllImages.add(absolutePathOfImage);
         }
+
+        cursor.close();
         return listOfAllImages;
     }
 

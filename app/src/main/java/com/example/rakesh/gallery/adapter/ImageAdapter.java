@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 /**
@@ -17,11 +15,11 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
     private ArrayList<String> imageList;
-    private Activity context;
+    private Activity activity;
     private int imageWidth;
 
-    public ImageAdapter(Activity context, ArrayList<String> imageList, int imageWidth) {
-        this.context = context;
+    public ImageAdapter(Activity activity, ArrayList<String> imageList, int imageWidth) {
+        this.activity = activity;
         this.imageList = imageList;
         this.imageWidth = imageWidth;
     }
@@ -42,7 +40,7 @@ public class ImageAdapter extends BaseAdapter {
                         ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
-            imageView = new ImageView(context);
+            imageView = new ImageView(activity);
 //            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 //            imageView
 //                    .setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
@@ -54,9 +52,7 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        Glide.with(context).load(imageList.get(position))
-                .into(imageView);
-
+        Glide.with(activity).load(imageList.get(position)).into(imageView);
         return imageView;
     }
 

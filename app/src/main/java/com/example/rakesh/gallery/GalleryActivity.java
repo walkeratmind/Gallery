@@ -1,27 +1,16 @@
 package com.example.rakesh.gallery;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
 import com.example.rakesh.gallery.adapter.ImageAdapter;
 import com.example.rakesh.gallery.helper.Utils;
-
 import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
