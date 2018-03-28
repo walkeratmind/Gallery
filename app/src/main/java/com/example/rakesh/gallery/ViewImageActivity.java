@@ -1,6 +1,5 @@
 package com.example.rakesh.gallery;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,6 @@ public class ViewImageActivity extends AppCompatActivity {
         String getImageSource = getIntent().getStringExtra("selectedImage");
         Log.i(TAG, "getImageSource" + getImageSource);
         Glide.with(this).load(getImageSource).into(imageView);
-
 
     }
 

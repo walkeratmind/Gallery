@@ -2,11 +2,13 @@ package com.example.rakesh.gallery;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,24 +26,31 @@ import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
 
+    private static final int GRID_PADDING = 2;
+    private static final int NUM_OF_COLUMNS = 3;
     /** The images. */
     private ArrayList<String> images;
     private Utils utils;
+    private int columnWidth;
+
+    private GridView gridView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        gridView = (GridView) findViewById(R.id.galleryGridView);
+
         utils = new Utils(this);
 
-        GridView gallery = (GridView) findViewById(R.id.galleryGridView);
+//        initializeGridLayout();
 
         images = utils.getAllShownImagesPath(this);
 
-        gallery.setAdapter(new ImageAdapter(this, images));
+        gridView.setAdapter(new ImageAdapter(this, images, columnWidth));
 
-        gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
@@ -58,5 +67,24 @@ public class GalleryActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void initializeGridLayout(){
+        Resources resources = getResources();
+        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                GRID_PADDING, resources.getDisplayMetrics());
+
+        columnWidth = (int) (utils.getScreenWidth() - ((NUM_OF_COLUMNS + 1) * padding));
+
+        int padd = (int) padding;
+        gridView.setNumColumns(NUM_OF_COLUMNS);
+        gridView.setColumnWidth(280);
+        gridView.setStretchMode(GridView.NO_STRETCH);
+        gridView.setLayoutParams(new GridView.LayoutParams(240, 240));
+        gridView.setPadding(padd, padd, padd, padd);
+
+        gridView.setHorizontalSpacing(8);
+        gridView.setVerticalSpacing(8);
+
     }
 }

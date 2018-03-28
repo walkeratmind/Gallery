@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     private ArrayList<String> imageList;
     private Activity context;
+    private int imageWidth;
 
-    public ImageAdapter(Activity context, ArrayList<String> imageList) {
+    public ImageAdapter(Activity context, ArrayList<String> imageList, int imageWidth) {
         this.context = context;
         this.imageList = imageList;
+        this.imageWidth = imageWidth;
     }
 
     public int getCount() {
@@ -38,20 +40,24 @@ public class ImageAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView,
                         ViewGroup parent) {
-        ImageView picturesView;
+        ImageView imageView;
         if (convertView == null) {
-            picturesView = new ImageView(context);
-            picturesView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            picturesView
-                    .setLayoutParams(new GridView.LayoutParams(270, 270));
+            imageView = new ImageView(context);
+//            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//            imageView
+//                    .setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
+            imageView.setLayoutParams(new GridView.LayoutParams(240, 240));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(4, 4, 4,4);
 
         } else {
-            picturesView = (ImageView) convertView;
+            imageView = (ImageView) convertView;
         }
 
         Glide.with(context).load(imageList.get(position))
-                .into(picturesView);
+                .into(imageView);
 
-        return picturesView;
+        return imageView;
     }
+
 }
