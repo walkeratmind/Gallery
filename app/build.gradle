@@ -35,7 +35,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 
     //libraray for subssampling scale image view
-//    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
 
     //library for photo view
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'

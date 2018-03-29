@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.example.rakesh.gallery.R;
 import com.github.chrisbanes.photoview.PhotoView;
 
@@ -66,13 +68,14 @@ public class ImageViewPagerAdapter extends PagerAdapter {
 
         String image = imagePaths.get(position);
 
+//        imageView.setImage(ImageSource.asset(imagePaths.get(position)));
         Glide.with(activity).load(imagePaths.get(position)).into(imageView);
 //        imageView.setImageResource(mThumbId[position]);
+
 
         container.addView(itemView);
         return itemView;
     }
-
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {

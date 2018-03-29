@@ -72,6 +72,7 @@ public class GalleryActivity extends AppCompatActivity {
         gridView.setFastScrollStyle(R.style.FastScrollBarStyle);
     }
 
+
 //    public void fullScreen(){
 //        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
 //        int newUiOptions = uiOptions;
