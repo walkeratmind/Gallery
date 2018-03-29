@@ -17,4 +17,26 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    //scrollbar styles
+    <style name="ScrollBarStyle" parent="ScrollBarStyle">
+        <item name="android:scrollbarThumbHorizontal">@drawable/thumb_drawable</item>
+        <item name="android:scrollbarTrackHorizontal">@drawable/line_drawable</item>
+        <item name="android:scrollbarThumbVertical">@drawable/thumb</item>
+        <item name="android:scrollbarTrackVertical">@drawable/line</item>
+        <item name="android:scrollbarStyle">insideOverlay</item>
+        <item name="android:smoothScrollbar">true</item>
+
+        <!--android:scrollbarThumbHorizontal="@drawable/thumb_drawable"-->
+        <!--android:scrollbarTrackHorizontal="@drawable/line_drawable"-->
+        <!--android:scrollbarThumbVertical="@drawable/thumb"-->
+        <!--android:scrollbarTrackVertical="@drawable/line"-->
+        <!--android:scrollbarStyle="insideOverlay"-->
+    </style>
+
+    <style name="FastScrollBarStyle">
+        <item name="android:fastScrollThumbDrawable">@drawable/thumb_drawable</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/line_drawable</item>
+        <item name="android:fastScrollOverlayPosition">aboveThumb</item>
+        <item name="android:fastScrollAlwaysVisible">true</item>
+    </style>
 </resources>

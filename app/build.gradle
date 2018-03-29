@@ -43,4 +43,7 @@ dependencies {
     //library for glide
 //    implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //for infinite cycle viewpager library
+    compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
+
 }

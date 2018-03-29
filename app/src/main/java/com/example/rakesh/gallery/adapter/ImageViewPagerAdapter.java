@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.rakesh.gallery.R;
+import com.github.chrisbanes.photoview.PhotoView;
+
 import java.util.ArrayList;
 
 /**
@@ -40,12 +42,12 @@ public class ImageViewPagerAdapter extends PagerAdapter {
     }
 
     //method for instantiating item
-    public Object instantiateItem(ViewGroup viewGroup, int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
         inflater = (LayoutInflater) activity.getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.activity_image_view_pager,
-                viewGroup, false);
-        ImageView imageView = itemView.findViewById(R.id.full_image);
+        View itemView = inflater.inflate(R.layout.activity_view_image,
+                container, false);
+        PhotoView imageView = itemView.findViewById(R.id.full_image);
 
 //        BitmapFactory.Options options = new BitmapFactory.Options();
 //        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -62,11 +64,26 @@ public class ImageViewPagerAdapter extends PagerAdapter {
 
         Log.i("Tag", "paths: " + imagePaths.size() + " : " + imagePaths);
 
+        String image = imagePaths.get(position);
+
         Glide.with(activity).load(imagePaths.get(position)).into(imageView);
+//        imageView.setImageResource(mThumbId[position]);
 
-//        Glide.with(itemView).load(imagePaths.get(position)).into(imageView);
-
-        viewGroup.addView(itemView);
+        container.addView(itemView);
         return itemView;
     }
+
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View) object);
+    }
+
+
+    //    private Integer[] mThumbId = {
+//            R.mipmap.sample_0, R.mipmap.sample_1,
+//            R.mipmap.sample_2, R.mipmap.sample_3,
+//            R.mipmap.sample_4, R.mipmap.sample_5,
+//            R.mipmap.sample_6, R.mipmap.sample_7
+//    };
 }
