@@ -1,5 +1,6 @@
 package com.example.rakesh.gallery;
 
+import android.app.Activity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +19,13 @@ import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
 
-public class ViewImageActivity extends AppCompatActivity {
+public class ViewImageActivity extends Activity {
 
     private static final String TAG = ViewImageActivity.class.getSimpleName();
 
-    ViewPager imagePager;
-    ImageViewPagerAdapter imageViewPagerAdapter;
-    Utils utils;
+    private ViewPager imagePager;
+    private ImageViewPagerAdapter imageViewPagerAdapter;
+    private Utils utils;
     private ArrayList<String> imagePaths;
     private int selectedPosition = 0;
 
@@ -37,7 +38,7 @@ public class ViewImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_view_pager);
 
-        hideActionBar();
+//        hideActionBar();
 
         utils = new Utils(this);
         imagePaths = new ArrayList<>();
@@ -65,7 +66,7 @@ public class ViewImageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        hideActionBar();
+//        hideActionBar();
     }
 
     private void setSimpleViewPager(int selectedPosition) {
@@ -76,7 +77,7 @@ public class ViewImageActivity extends AppCompatActivity {
         imagePager.setOffscreenPageLimit(5);
     }
 
-    public void setInfiniteViewPager(int selectedPosition){
+    public void setInfiniteViewPager(int selectedPosition) {
         infiniteCycleViewPager = findViewById(R.id.infinte_cycle_pager);
         infiniteCycleViewPager.setCurrentItem(selectedPosition, true);
         infiniteCycleViewPager.setAdapter(imageViewPagerAdapter);
@@ -85,7 +86,7 @@ public class ViewImageActivity extends AppCompatActivity {
         infiniteCycleViewPager.notifyDataSetChanged();
     }
 
-    public void hideActionBar(){
+    public void hideActionBar() {
         View decorView = getWindow().getDecorView();
         //hide status bar
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;

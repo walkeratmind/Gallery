@@ -4,38 +4,52 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:fitsSystemWindows="true">-->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/appBarLayout">
 
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
-            <!--android:id="@+id/collapsing_toolbar_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-            <!--<android.support.v7.widget.Toolbar-->
-                <!--android:id="@+id/toolbar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleMarginEnd="?attr/actionBarSize"
+            app:expandedTitleMarginStart="10dp"
+            app:collapsedTitleTextAppearance="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
 
-            <!--</android.support.v7.widget.Toolbar>-->
-        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
-    <!--</android.support.design.widget.AppBarLayout>-->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
-    <GridView
-        android:id="@+id/galleryGridView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="40dp"
-        android:numColumns="3"
-        android:gravity="center"
-        android:padding="2dp"
+        android:layout_below="@+id/appBarLayout"
         android:scrollbars="vertical"
-        android:stretchMode="columnWidth"
-        android:background="#f4f4f4"
-        android:fastScrollEnabled="false"
-        style="@style/ScrollBarStyle">
-    </GridView>
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"-->
+    <!--app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"-->
+    <!--app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"-->
+    <!--app:fastScrollVerticalTrackDrawable="@drawable/line"-->
 
 </RelativeLayout>

@@ -1,25 +1,41 @@
 package com.example.rakesh.gallery;
 
 import android.annotation.TargetApi;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Toolbar;
+
 import com.example.rakesh.gallery.adapter.ImageAdapter;
+import com.example.rakesh.gallery.adapter.RecyclerGridViewAdapter;
+import com.example.rakesh.gallery.helper.RecyclerGridView;
 import com.example.rakesh.gallery.helper.Utils;
 import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
 
     private static final String TAG = GalleryActivity.class.getSimpleName();
+    private static final String DEBUG_TAG = GalleryActivity.class.getSimpleName();
 
     private static final int GRID_PADDING = 2;
     private static final int NUM_OF_COLUMNS = 3;
@@ -28,7 +44,11 @@ public class GalleryActivity extends AppCompatActivity {
     private Utils utils;
     private int columnWidth;
 
-    private GridView gridView;
+//    private GridView recyclerGridView;
+    private RecyclerView recyclerGridView;
+
+    private android.support.v7.widget.Toolbar mToolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -36,40 +56,110 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        gridView = (GridView) findViewById(R.id.galleryGridView);
+        recyclerGridView =  findViewById(R.id.recycler_image_view);
+
+        showToolbar();
 
         utils = new Utils(this);
-        getFastScrollBar();
 
 //        initializeGridLayout();
 
-        images = utils.getAllShownImagesPath(this);
+        fetchGallery();
 
-        gridView.setAdapter(new ImageAdapter(this, images, columnWidth));
+        recyclerGridView.addOnItemTouchListener(
+                new RecyclerGridViewAdapter.RecyclerTouchListener(getApplicationContext(), recyclerGridView,
+                        new RecyclerGridViewAdapter.ClickListener(){
+                            Context context = getApplicationContext();
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long arg3) {
-                if (null != images && !images.isEmpty()) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            "position " + position + " " + images.get(position),
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), ViewImageActivity.class);
-                    intent.putExtra("selectedImage", images.get(position));
-                    startActivity(intent);
-                }
+                            @Override
+                            public void onClick(View view, int position) {
+                                String image = images.get(position);
+                                if (null != image && !image.isEmpty()) {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            "position " + position + " " + image,
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(context, ViewImageActivity.class);
+                                    intent.putExtra("selectedImage", image);
+                                    context.startActivity(intent);
+                                }
+                            }
 
-            }
-        });
+                            @Override
+                            public void onLongClick(View view, int position) {
+
+                            }
+                        }));
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchGallery();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.widget.SearchView searchView =
+                (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+
+
+
+    //    public boolean onTouch(View view, MotionEvent event) {
+//        return false;
+//    }
+
     public void getFastScrollBar() {
-        gridView.setFastScrollEnabled(true);
-        gridView.setFastScrollStyle(R.style.FastScrollBarStyle);
+//        recyclerGridView.Fas
+//        recyclerGridView.setFastScrollStyle(R.style.FastScrollBarStyle);
+    }
+
+    public void showToolbar(){
+        mToolbar = findViewById(R.id.toolbar);
+        collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_layout);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        collapsingToolbarLayout.setTitle("Gallery");
+        AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
+        appBarLayout.setExpanded(true);
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle("Web View");
+                    isShow = true;
+                } else if (isShow) {
+                    collapsingToolbarLayout.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
+    }
+
+    public void fetchGallery() {
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL);
+        recyclerGridView.setLayoutManager(staggeredGridLayoutManager);
+        getFastScrollBar();
+        images = utils.getAllShownImagesPath(this);
+        recyclerGridView.setAdapter(new RecyclerGridViewAdapter(this, images));
     }
 
 
@@ -101,22 +191,22 @@ public class GalleryActivity extends AppCompatActivity {
 //        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
 //    }
 
-    public void initializeGridLayout(){
-        Resources resources = getResources();
-        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                GRID_PADDING, resources.getDisplayMetrics());
-
-        columnWidth = (int) (utils.getScreenWidth() - ((NUM_OF_COLUMNS + 1) * padding));
-
-        int padd = (int) padding;
-        gridView.setNumColumns(NUM_OF_COLUMNS);
-        gridView.setColumnWidth(280);
-        gridView.setStretchMode(GridView.NO_STRETCH);
-        gridView.setLayoutParams(new GridView.LayoutParams(240, 240));
-        gridView.setPadding(padd, padd, padd, padd);
-
-        gridView.setHorizontalSpacing(8);
-        gridView.setVerticalSpacing(8);
-
-    }
+//    public void initializeGridLayout(){
+//        Resources resources = getResources();
+//        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+//                GRID_PADDING, resources.getDisplayMetrics());
+//
+//        columnWidth = (int) (utils.getScreenWidth() - ((NUM_OF_COLUMNS + 1) * padding));
+//
+//        int padd = (int) padding;
+//        recyclerGridView.setNumColumns(NUM_OF_COLUMNS);
+//        recyclerGridView.setColumnWidth(280);
+//        recyclerGridView.setStretchMode(GridView.NO_STRETCH);
+//        recyclerGridView.setLayoutParams(new GridView.LayoutParams(240, 240));
+//        recyclerGridView.setPadding(padd, padd, padd, padd);
+//
+//        recyclerGridView.setHorizontalSpacing(8);
+//        recyclerGridView.setVerticalSpacing(8);
+//
+//    }
 }
