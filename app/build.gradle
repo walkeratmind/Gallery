@@ -45,8 +45,8 @@ dependencies {
 //    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //for infinite cycle viewpager library
-    compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 repositories {
